@@ -1,0 +1,22 @@
+{% extends 'ads/base_menu.html' %}
+{% block title %}{{ settings.APP_NAME }}{% endblock %}
+{% load humanize %} <!-- https://docs.djangoproject.com/en/3.0/ref/contrib/humanize -->
+{% block content %}
+<span style="float: right;">
+({{ ad.updated_at|naturaltime }})
+{% if ad.owner == user %}
+<a href="{% url 'ads:ad_update' ad.id %}"><i class="fa fa-pencil"></i></a>
+<a href="{% url 'ads:ad_delete' ad.id %}"><i class="fa fa-trash"></i></a>
+{% endif %}
+</span>
+<h1>{{ ad.title }}</h1>
+<p>
+{{ ad.text }}
+</p>
+<p>
+{{ ad.price }}
+</p>
+<p>
+<input type="submit" value="All Ads" class="btn btn-primary " onclick="window.location.href='{% url 'ads:all' %}';return false;">
+</p>
+{% endblock %}

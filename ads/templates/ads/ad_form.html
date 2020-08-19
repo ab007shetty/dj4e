@@ -1,0 +1,15 @@
+{% extends 'ads/base_menu.html' %}
+{% block title %}{{ settings.APP_NAME }}{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+<p>
+  <form action="" method="post" >
+    {% csrf_token %}
+    {{ form|crispy }}
+    <div class="form-group">
+        <input type="submit" value="Submit" class="btn btn-primary ">
+        <input type="submit" value="Cancel" class="btn btn-default" onclick="window.location.href='{% url 'ads:all' %}';return false;">
+    </div>
+  </form>
+</p>
+{% endblock %}
