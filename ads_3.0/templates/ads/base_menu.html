@@ -1,0 +1,51 @@
+{% extends 'base_bootstrap.html' %}
+{% load app_tags %} <!-- see home/templatetags/app_tags.py and dj4e-samples/settings.py -->
+{% block navbar %}
+<!-- https://www.w3schools.com/bootstrap/bootstrap_navbar.asp -->
+<nav class="navbar navbar-default navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="{% url 'ads:all' %}">{{ settings.APP_NAME }}</a>
+    </div>
+    <!-- https://stackoverflow.com/questions/22047251/django-dynamically-get-view-url-and-check-if-its-the-current-page -->
+    <ul class="nav navbar-nav">
+
+      <!-- Assign output of url function to a variable named
+          'xyz' to use in the if statement -->
+      {% url 'ads:all' as xyz %}
+      <li {% if request.get_full_path == xyz %}class="active"{% endif %}>
+          <a href="{% url 'ads:all' %}">Ads</a></li>
+</ul>
+
+    <ul class="nav navbar-nav navbar-right">
+
+      <li class="dropdown">
+      <a href="#" data-toggle="dropdown" class="dropdown-toggle">Versions
+          <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+            <li><a href="{% url 'ads:all' %}">Ads 1.0</a></li>
+        </ul>
+       </li>
+
+       {% url 'ads:ad_create' as xyz %}
+      <li {% if request.get_full_path == xyz %}class="active"{% endif %}>
+          <a href="{% url 'ads:ad_create' %}">Create Ad</a></li>
+
+
+       {% if user.is_authenticated %}
+       <li class="dropdown">
+      <!-- gravatar depends on app_tags being loaded -->
+      <!-- https://brobin.me/blog/2016/07/super-simple-django-gravatar/ -->
+      <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+        <img style="width: 25px;" src="{{ user|gravatar:60 }}"/><b class="caret"></b></a>
+        <ul class="dropdown-menu">
+            <li><a href="{% url 'logout' %}?next={% url 'ads:all' %}">Logout</a></li>
+        </ul>
+       </li>
+       {% else %}
+       <li><a href="{% url 'login' %}?next={% url 'ads:all' %}">Login</a></li>
+       {% endif %}
+    </ul>
+  </div>
+</nav>
+{% endblock %}
